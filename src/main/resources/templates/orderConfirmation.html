@@ -20,6 +20,9 @@
 </head>
 <body>
 <section>
+    <br>
+    <a href="/Movies">Back to the ordering page</a>
+    <br>
     <header>
         <h1>Movie Order page - Order confirmation </h1>
     </header>
@@ -47,7 +50,9 @@
         </tr>
     </table>
 
-    <h2>Most ordered movie: <b th:text="${movie}"></b></h2>
+    <h2>Most ordered movie:
+        <p th:text="${movie + ' with ' + movieTickets + (movieTickets == 1 ? ' ticket' : ' tickets')}"></p>
+    </h2>
 </section>
 </body>
 </html>

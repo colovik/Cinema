@@ -1,7 +1,9 @@
 package mk.ukim.finki.wp.lab.web;
 
 import mk.ukim.finki.wp.lab.model.Movie;
+import mk.ukim.finki.wp.lab.model.TicketOrder;
 import mk.ukim.finki.wp.lab.service.interfaces.MovieService;
+import mk.ukim.finki.wp.lab.service.interfaces.TicketOrderService;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
@@ -11,8 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,10 +20,12 @@ import java.util.stream.Collectors;
 public class MovieListServlet extends HttpServlet {
     private final MovieService movieService;
     private final SpringTemplateEngine springTemplateEngine;
+    private final TicketOrderService ticketOrder;
 
-    public MovieListServlet(SpringTemplateEngine ste, MovieService ms, SpringTemplateEngine springTemplateEngine) {
+    public MovieListServlet(SpringTemplateEngine ste, MovieService ms, SpringTemplateEngine springTemplateEngine, TicketOrderService ticketOrder) {
         this.movieService = ms;
         this.springTemplateEngine = springTemplateEngine;
+        this.ticketOrder = ticketOrder;
     }
 
     @Override
@@ -33,43 +35,31 @@ public class MovieListServlet extends HttpServlet {
         String searchName = req.getParameter("searchName");
         String searchRating = req.getParameter("searchRating");
 
-        List<Movie> movies = movieService.listAll();
-
-        if (searchName != null && !searchName.isEmpty()) {
-            movies = movieService.searchMovies(searchName);
-        }
-
-        if (searchRating != null && !searchRating.isEmpty()) {
-            float minRating = Float.parseFloat(searchRating);
-            movies = movies.stream()
-                    .filter(movie -> movie.getRating() >= minRating)
-                    .collect(Collectors.toList()); //ovaa logika treba da bide vo service delot
-        }
+        List<Movie> movies = movieService.searchMovies(searchName, searchRating);
 
         context.setVariable("movies", movies);
         this.springTemplateEngine.process("listMovies.html", context, resp.getWriter());
     }
 
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         WebContext context = new WebContext(req, resp, req.getServletContext());
 
-        String number_tickets = req.getParameter("numTickets");
-        String numTickets = req.getParameter("numTickets");
+        int numTickets = Integer.parseInt(req.getParameter("numTickets"));
         String selectedMovie = req.getParameter("selectedMovie");
         String clientName = req.getHeader("User-Agent");
+        String clientAddress = req.getRemoteAddr();
 
-        // movieService.getMovie(selectedMovie).setNum_orders(movieService.getMovie(selectedMovie).getNum_orders()+1);
-        // orders.add(movieService.getMovie(selectedMovie));
-
-
-        Movie m = movieService.mostOrdered( movieService.order(selectedMovie));
+        List<TicketOrder> allTicketOrderesPlaced = ticketOrder.placeOrder(selectedMovie,clientName,clientAddress,numTickets);
+        List<String> allMovies = ticketOrder.getOrderedMovies(allTicketOrderesPlaced);
+        Movie m = movieService.mostOrdered(allMovies);
 
         String movie = m.getTitle();
+        int movieTickets = m.getNum_orders();
 
-
-        resp.sendRedirect("/ticketOrder?clientName=" + clientName + "&selectedMovie=" + selectedMovie + "&numTickets=" + numTickets + "&movie=" + movie);
+        resp.sendRedirect("/ticketOrder?clientName=" + clientName + "&selectedMovie=" + selectedMovie +
+                "&numTickets=" + numTickets + "&clientAddress=" + clientAddress + "&movie=" + movie
+                + "&movieTickets=" + movieTickets);
     }
 }
