@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class TicketOrder {
+
     String movieTitle;
     String clientName;
     String clientAddress;

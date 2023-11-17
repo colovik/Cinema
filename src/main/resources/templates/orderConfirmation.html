@@ -17,11 +17,12 @@
             padding: 3px 2px;
         }
     </style>
+
 </head>
 <body>
 <section>
     <br>
-    <a href="/Movies">Back to the ordering page</a>
+    <a href="/movies">Back to the ordering page</a>
     <br>
     <header>
         <h1>Movie Order page - Order confirmation </h1>
@@ -34,25 +35,29 @@
         </tr>
         <tr>
             <td><b>Client Name </b></td>
-            <td th:text="${clientName}"></td>
+            <td th:text="${order.getClientName()}"></td>
         </tr>
         <tr>
             <td><b>Client IP Address</b></td>
-            <td th:text="${ipAddress}"></td>
+            <td th:text="${order.getClientAddress()}"></td>
         </tr>
         <tr>
             <td><b>Ticket for Movie</b></td>
-            <td th:text="${selectedMovie}"></td>
+            <td th:text="${order.getMovieTitle()}"></td>
         </tr>
         <tr>
             <td><b>Number of tickets</b></td>
-            <td th:text="${numTickets}"></td>
+            <td th:text="${order.getNumberOfTickets()}"></td>
+        </tr>
+        <tr>
+            <td><b>Production</b></td>
+            <td th:text="${production}"></td>
         </tr>
     </table>
 
-    <h2>Most ordered movie:
-        <p th:text="${movie + ' with ' + movieTickets + (movieTickets == 1 ? ' ticket' : ' tickets')}"></p>
-    </h2>
+<!--    <h2>Most ordered movie:-->
+<!--        <p th:text="${movie + ' with ' + movieTickets + (movieTickets == 1 ? ' ticket' : ' tickets')}"></p>-->
+<!--    </h2>-->
 </section>
 </body>
 </html>

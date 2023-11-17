@@ -9,13 +9,19 @@ public class Movie {
     double rating;
     int num_orders;
 
-    public Movie() {
-    }
+    private Long id;
+    private Production production;
 
-    public Movie(String title, String summary, double rating) {
+    public Movie(String title, String summary, double rating, Production production) {
         this.title = title;
         this.summary = summary;
         this.rating = rating;
         this.num_orders = 0;
+        this.id = (long) (Math.random() * 1000);
+        this.production = production;
+    }
+
+    public Movie() {
+
     }
 }

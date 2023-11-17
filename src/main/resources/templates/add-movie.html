@@ -1,0 +1,63 @@
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <title>Movie Ticket Order page - Welcome and choose a Movie</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Movie Ticket Shop App</h1>
+</header>
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <form method="post" action="/movies/add">
+                    <div class="form-group">
+                        <label for="title">Movie Title</label>
+                        <input id="title" name="title" type="text" class="form-control"
+                               th:value="(${movie!=null} ? ${movie.getTitle()} : '')" required placeholder="Movie name">
+                    </div>
+                    <input hidden name="movieId" th:value="(${movie!=null} ? ${movie.getId()} : '')">
+                    <div class="form-group">
+                        <label for="summary">Movie summary</label>
+                        <input id="summary" name="summary" type="text" class="form-control"
+                               th:value="(${movie!=null} ? ${movie.getSummary()} : '')" required
+                               placeholder="Movie summary">
+                    </div>
+                    <div class="form-group">
+                        <label for="rating">Movie rating</label>
+                        <input id="rating" name="rating" type="text" class="form-control"
+                               th:value="(${movie!=null} ? ${movie.getRating()} : '')" required
+                               placeholder="Movie rating">
+                    </div>
+                    <div class="form-group">
+                        <label>Production</label>
+                        <select name="production" class="form-control">
+                            <option th:if="${movie!=null}" th:selected="${movie.getProduction().getName()!=null
+                                        && movie.getProduction().getId() == prod.getId()}"
+                                    th:each="prod : ${productions}"
+                                    th:text="${prod.getName()}"
+                                    th:value="${prod.getId()}">
+                            </option>
+                            <option th:if="${movie==null}"
+                                    th:each="prod : ${productions}" th:text="${prod.getName()}"
+                                    th:value="${prod.getId()}">
+                            </option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary ">Submit</button>
+                    <a type="button" class="btn btn-primary" href="/movies">Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
+
