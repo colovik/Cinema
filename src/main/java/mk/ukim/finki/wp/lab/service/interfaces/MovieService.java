@@ -10,9 +10,7 @@ public interface MovieService {
 
     List<Movie> searchMoviesByName(String searchName);
 
-    Movie mostOrdered(List<String> orderedMoviesNames);
-
-    Movie getMovie(String movieTitle);
+    Movie mostOrdered(List<Movie> orderedMoviesNames);
 
     Movie save(String title, String summary, String rating, Production production);
     Movie edit(Long movieId,String title, String summary, String rating, Production production);
@@ -21,4 +19,6 @@ public interface MovieService {
 
     Movie findById(Long id);
     List<Movie> searchMoviesByRating(String searchRating);
+    void updateRating(String movie,int rating);
+
 }

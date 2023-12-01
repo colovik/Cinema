@@ -2,14 +2,12 @@ package mk.ukim.finki.wp.lab.web.controller;
 
 import mk.ukim.finki.wp.lab.model.Movie;
 import mk.ukim.finki.wp.lab.model.Production;
-import mk.ukim.finki.wp.lab.model.TicketOrder;
 import mk.ukim.finki.wp.lab.service.interfaces.MovieService;
 import mk.ukim.finki.wp.lab.service.interfaces.ProductionService;
 import mk.ukim.finki.wp.lab.service.interfaces.TicketOrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -30,7 +28,7 @@ public class MovieController {
     }
 
     @GetMapping
-    public String getMoviesPage(@RequestParam(required = false) String error, Model model) {
+    public String getMoviesPage(Model model) {
 
         List<Movie> movies = movieService.listAll();
         model.addAttribute("movies", movies);
@@ -38,16 +36,8 @@ public class MovieController {
         return "listMovies";
     }
 
-    @GetMapping("/add-form")
-    public String getAddMoviePage(Model model) {
-        List<Production> productions = productionService.findAll();
-        model.addAttribute("productions", productions);
-        return "add-movie";
-    }
-
     @GetMapping("/search")
     public String searchMovies(@RequestParam(required = false) String searchName, @RequestParam(required = false) String searchRating, Model model) {
-//        List<Movie> movies = movieService.searchMovies(searchText,rating);
         List<Movie> movies = new ArrayList<>();
         if ((searchName == null || searchName.isEmpty()) && (searchRating == null || searchRating.isEmpty())) {
             movies = movieService.listAll();
@@ -61,6 +51,23 @@ public class MovieController {
         model.addAttribute("movies", movies);
         return "listMovies";
 
+    }
+
+    @PostMapping("/order")
+    public String orderTicket(@RequestParam String title,
+                              @RequestParam Integer numTickets,
+                              @RequestParam String name,
+                              HttpServletRequest request) {
+        String clientAddress = request.getRemoteAddr();
+        ticketOrderService.placeOrder(title, name, clientAddress, numTickets);
+        return "redirect:/ticketOrder";
+    }
+
+    @GetMapping("/add-form")
+    public String getAddMoviePage(Model model) {
+        List<Production> productions = productionService.findAll();
+        model.addAttribute("productions", productions);
+        return "add-movie";
     }
 
     @GetMapping("/edit-form/{id}")
@@ -87,23 +94,10 @@ public class MovieController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteMovie(@PathVariable Long id, Model model) {
+    public String deleteMovie(@PathVariable Long id) {
         movieService.delete(id);
         return "redirect:/movies";
     }
 
-    @PostMapping("/order")
-    public String orderTicket(@RequestParam String title,
-                              @RequestParam Integer numTickets,
-                              HttpServletRequest request,
-                              RedirectAttributes redirectAttributes) {
-        String clientAddress = request.getRemoteAddr();
-        String clientName = request.getHeader("User-Agent");
-        TicketOrder order = ticketOrderService.placeOrder(title, clientName, clientAddress, numTickets);
-        redirectAttributes.addFlashAttribute("order", order);
-        Production production = productionService.findByMovieTitle(title);
-        String productionName = production.getName();
-        redirectAttributes.addFlashAttribute("production", productionName);
-        return "redirect:/ticketOrder";
-    }
+
 }

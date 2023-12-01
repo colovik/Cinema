@@ -6,9 +6,8 @@ import mk.ukim.finki.wp.lab.repository.MovieRepository;
 import mk.ukim.finki.wp.lab.service.interfaces.MovieService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -45,11 +44,10 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie mostOrdered(List<String> orderedMoviesNames) {
+    public Movie mostOrdered(List<Movie> orderedMovies) {
         int max = 0;
         Movie mo = new Movie();
-        for (String movieName : orderedMoviesNames) {
-            Movie m = movieRepository.getMovie(movieName);
+        for (Movie m : orderedMovies) {
             if (m.getNum_orders() >= max) {
                 max = m.getNum_orders();
                 mo = m;
@@ -58,10 +56,6 @@ public class MovieServiceImpl implements MovieService {
         return mo;
     }
 
-    @Override
-    public Movie getMovie(String movieTitle) {
-        return movieRepository.getMovie(movieTitle);
-    }
 
     @Override
     public Movie save(String title, String summary, String rating, Production production) {
@@ -81,5 +75,9 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie findById(Long id) {
         return movieRepository.findById(id);
+    }
+
+    public void updateRating(String movie,int rating){
+        movieRepository.updateRating(movie,rating);
     }
 }

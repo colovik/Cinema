@@ -12,14 +12,14 @@
 //
 //@WebServlet(name = "ticketOrderServlet", urlPatterns = "/ticketOrder")
 //public class TicketOrderServlet extends HttpServlet {
-//    SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
+//    SpringTemplateEngine springTemplateEngine;
 //
 //    public TicketOrderServlet(SpringTemplateEngine springTemplateEngine) {
 //        this.springTemplateEngine = springTemplateEngine;
 //    }
 //
 //    @Override
-//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 //        WebContext context = new WebContext(req, resp, req.getServletContext());
 //
 //        context.setVariable("numTickets", req.getParameter("numTickets"));

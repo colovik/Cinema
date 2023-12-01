@@ -20,8 +20,8 @@ public class MovieRepository {
     public List<Movie> searchMovies(String text) {
         List<Movie> result = new ArrayList<>();
 
-        for (Movie m : findAll()) {
-            if (m.getTitle().contains(text)) {
+        for (Movie m : movieList) {
+            if (m.getTitle().toLowerCase().contains(text.toLowerCase())) {
                 result.add(m);
             }
         }
@@ -39,8 +39,8 @@ public class MovieRepository {
 
     public List<Movie> getMoviesByRating(String rating) {
         List<Movie> result = new ArrayList<>();
-        float minRating = Float.parseFloat(rating);
-        for (Movie m : findAll()) {
+        double minRating = Double.parseDouble(rating);
+        for (Movie m : movieList) {
             if (m.getRating() >= minRating) {
                 result.add(m);
             }
@@ -83,4 +83,13 @@ public class MovieRepository {
         }
     }
 
+    public void updateRating(String movie, double rating){
+        double newRating;
+        for(Movie m : movieList){
+            if(m.getTitle().equals(movie)){
+                newRating = (m.getRating()+rating)/2;
+                m.setRating(newRating);
+            }
+        }
+    }
 }

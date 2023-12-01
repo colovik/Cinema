@@ -5,10 +5,11 @@ import mk.ukim.finki.wp.lab.model.TicketOrder;
 import java.util.List;
 
 public interface TicketOrderService{
-    TicketOrder placeOrder(String movieTitle, String clientName, String address, int numberOfTickets);
-
-    List<String> getOrderedMovies(List<TicketOrder> orders);
+    void placeOrder(String movieTitle, String clientName, String address, int numberOfTickets);
 
     List<TicketOrder> findAll();
-    List<String> findAllClients();
+
+    List<String> getAllClients();
+
+    List<TicketOrder> findTicketsByUser(String name);
 }

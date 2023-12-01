@@ -1,6 +1,11 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
     <title>Ordered Ticket - Confirmation</title>
     <style type="text/css">
         body {
@@ -21,43 +26,72 @@
 </head>
 <body>
 <section>
-    <br>
-    <a href="/movies">Back to the ordering page</a>
-    <br>
     <header>
         <h1>Movie Order page - Order confirmation </h1>
     </header>
-    <table>
-        <tr>
-            <th colspan="2">
-                Your Order Status
-            </th>
-        </tr>
-        <tr>
-            <td><b>Client Name </b></td>
-            <td th:text="${order.getClientName()}"></td>
-        </tr>
-        <tr>
-            <td><b>Client IP Address</b></td>
-            <td th:text="${order.getClientAddress()}"></td>
-        </tr>
-        <tr>
-            <td><b>Ticket for Movie</b></td>
-            <td th:text="${order.getMovieTitle()}"></td>
-        </tr>
-        <tr>
-            <td><b>Number of tickets</b></td>
-            <td th:text="${order.getNumberOfTickets()}"></td>
-        </tr>
-        <tr>
-            <td><b>Production</b></td>
-            <td th:text="${production}"></td>
-        </tr>
-    </table>
+<!--    dopolnitelno baranje labs2-->
+<!--    filtriranje na ticket orders po ime na klient-->
+    <div class="container mb-4">
+        <form method="GET" action="/ticketOrder/search">
+            <div class="row">
+                <div class="col-10 form-group">
+                    <label>Filter orders by client name</label>
+                    <select name="clientNameFilter" class="form-control mb-0">
+                        <option value="" disabled selected>Select Client</option>
+                        <option th:each="clientNameFilter : ${clients}"
+                                th:text="${clientNameFilter}"
+                                th:value="${clientNameFilter}">
+                        </option>
+                    </select>
+                </div>
+                <button id="filterButton" name="filterButton" type="submit"
+                        class="col-2 btn btn-primary mb-0 mt-auto">Filter
+                </button>
+            </div>
+        </form>
+    </div>
 
-<!--    <h2>Most ordered movie:-->
-<!--        <p th:text="${movie + ' with ' + movieTickets + (movieTickets == 1 ? ' ticket' : ' tickets')}"></p>-->
-<!--    </h2>-->
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="centre">Client Name</th>
+                        <th class="centre">Client IP Address</th>
+                        <th class="centre">Movie Title</th>
+                        <th class="centre">Number of tickets</th>
+                        <th class="centre">Production</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="order : ${allOrders}">
+                        <td th:text="${order.getClientName()}"></td>
+                        <td th:text="${order.getClientAddress()}"></td>
+                        <td th:text="${order.getMovieTitle()}"></td>
+                        <td th:text="${order.getNumberOfTickets()}"></td>
+                        <td th:text="${order.getProduction().getName()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col mb-3">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <a href="/movies" class="btn btn-block btn-dark add-product-btn">
+                            Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--    dopolnitelno baranje labs1-->
+    <!--    da se najde filmot shto e najnaracuvan (ima najmnogu prodadeni karti)-->
+    <h2>Most ordered movie:
+        <p th:text="${movieTitle + ' with ' + numTickets + (numTickets == 1 ? ' ticket' : ' tickets')}"></p>
+    </h2>
 </section>
 </body>
 </html>

@@ -3,8 +3,6 @@ package mk.ukim.finki.wp.lab.repository;
 import mk.ukim.finki.wp.lab.model.Production;
 import org.springframework.stereotype.Repository;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 import static mk.ukim.finki.wp.lab.bootstrap.DataHolder.productions;
 
