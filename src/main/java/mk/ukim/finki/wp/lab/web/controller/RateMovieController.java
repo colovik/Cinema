@@ -25,7 +25,7 @@ public class RateMovieController {
 
     @GetMapping
     public String getRateMoviePage(Model model){
-        List<Movie> movies = movieService.listAll();
+        List<Movie> movies = movieService.findAll();
         model.addAttribute("movies",movies);
         return "addMovieRating";
     }

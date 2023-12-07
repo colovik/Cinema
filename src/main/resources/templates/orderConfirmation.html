@@ -29,24 +29,40 @@
     <header>
         <h1>Movie Order page - Order confirmation </h1>
     </header>
-<!--    dopolnitelno baranje labs2-->
-<!--    filtriranje na ticket orders po ime na klient-->
+    <!--    dopolnitelno baranje labs2-->
+    <!--    filtriranje na ticket orders po ime na klient-->
     <div class="container mb-4">
-        <form method="GET" action="/ticketOrder/search">
+        <form method="GET" action="/ticketOrder">
             <div class="row">
                 <div class="col-10 form-group">
                     <label>Filter orders by client name</label>
-                    <select name="clientNameFilter" class="form-control mb-0">
+                    <select name="clientName" class="form-control mb-0">
                         <option value="" disabled selected>Select Client</option>
-                        <option th:each="clientNameFilter : ${clients}"
-                                th:text="${clientNameFilter}"
-                                th:value="${clientNameFilter}">
+                        <option th:each="clientName : ${clients}"
+                                th:text="${clientName}"
+                                th:value="${clientName}">
                         </option>
                     </select>
                 </div>
                 <button id="filterButton" name="filterButton" type="submit"
                         class="col-2 btn btn-primary mb-0 mt-auto">Filter
                 </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container mb-4 form-group">
+        <form action="/ticketOrder/filteredByDate" method="get">
+            <div class="row">
+                <div class="col-5">
+                    <label for="from">From:</label>
+                    <input type="datetime-local" id="from" name="from"/>
+                </div>
+                <div class="col-5">
+                    <label for="to">To:</label>
+                    <input type="datetime-local" id="to" name="to"/>
+                </div>
+                <button type="submit" class="col-2 btn btn-primary">Submit</button>
             </div>
         </form>
     </div>
@@ -58,29 +74,33 @@
                     <thead>
                     <tr>
                         <th class="centre">Client Name</th>
-                        <th class="centre">Client IP Address</th>
+                        <!--                        <th class="centre">Client IP Address</th>-->
                         <th class="centre">Movie Title</th>
                         <th class="centre">Number of tickets</th>
                         <th class="centre">Production</th>
+                        <th class="centre">Ticket Order Date Created</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="order : ${allOrders}">
-                        <td th:text="${order.getClientName()}"></td>
-                        <td th:text="${order.getClientAddress()}"></td>
-                        <td th:text="${order.getMovieTitle()}"></td>
+                        <td th:text="${order.getUser().getUsername()}"></td>
+                        <!--                        <td th:text="${order.getClientAddress()}"></td>-->
+                        <td th:text="${order.getMovie().getTitle()}"></td>
                         <td th:text="${order.getNumberOfTickets()}"></td>
-                        <td th:text="${order.getProduction().getName()}"></td>
+                        <td th:text="${order.getMovie().getProduction().getName()}"></td>
+                        <!--                        <td th:text="${#temporals.format(order.getShoppingCart().getDateCreated(), 'dd-MM-yyyy HH:mm')}"></td>-->
+
+                        <td th:text="${order.getDateCreated()}"></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="col mb-3">
+
+            <div class="container mb-4 ">
                 <div class="row">
-                    <div class="col-sm-12 col-md-12">
-                        <a href="/movies" class="btn btn-block btn-dark add-product-btn">
-                            Back
-                        </a>
+                    <div class="col-12">
+                    <a href="/movies" class=" col-2 btn btn-block btn-dark add-product-btn">
+                        Back</a>
                     </div>
                 </div>
             </div>

@@ -1,21 +1,48 @@
 package mk.ukim.finki.wp.lab.model;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
 @Data
 public class TicketOrder {
 
-    String movieTitle;
-    String clientName;
-    String clientAddress;
-    int numberOfTickets;
-    Production production;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public TicketOrder(String movieTitle, String clientName, String clientAddress, int numberOfTickets, Production production) {
-        this.movieTitle = movieTitle;
-        this.clientName = clientName;
-        this.clientAddress = clientAddress;
+    @ManyToOne
+    Movie movie; //za movie title
+
+    int numberOfTickets;
+
+    @ManyToOne
+    User user; //za clientName (username)
+
+    @ManyToOne
+    ShoppingCart shoppingCart;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime dateCreated;
+
+    //    String clientName;
+    //    String clientAddress;
+
+    //    @ManyToOne
+    //    Production production;
+
+
+    public TicketOrder(Movie movie, int numberOfTickets, User user, LocalDateTime dateCreated) {
+        this.movie = movie;
         this.numberOfTickets = numberOfTickets;
-        this.production = production;
+        this.user = user;
+        this.dateCreated = dateCreated;
+    }
+
+    public TicketOrder() {
+
     }
 }

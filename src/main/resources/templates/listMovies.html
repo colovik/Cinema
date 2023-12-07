@@ -50,6 +50,8 @@
             </div>
         </div>
 
+        <br/>
+        <br/>
 
         <h2>Choose number of tickets:</h2>
         <input type="number" name="numTickets" min="1" max="10"><br/>
@@ -57,20 +59,28 @@
         <br/>
 
         <h2>Enter your name</h2>
-        <input type="text" name="name">
+        <input type="text" name="username">
 
-        <br>
-        <br>
+        <br/>
+        <br/>
+
+        <h2>Enter the date and time for the order:</h2>
+        <input name="localDateTime" type="datetime-local"/>
+
+        <br/>
+        <br/>
 
         <input type="submit" class="btn btn-primary" value="Place Order">
-        <br>
+
+        <br/>
     </form>
 
     <br>
 
     <a type="button" href="/rate" class="btn btn-light">Add rating</a>
     <a type="button" href="/movies/add-form" class="btn btn-success white">Add movie</a>
-<!--    <a type="button" href="/movies/allRatings" class="btn btn-dark">All client's ratings</a>-->
+    <a type="button" href="/movies/add-production" class="btn btn-info">Add production</a>
+    <a type="button" href="/ticketOrder" class="btn btn-dark">All orders</a>
     <br>
     <br>
 </main>

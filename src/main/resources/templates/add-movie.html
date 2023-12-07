@@ -13,9 +13,11 @@
 </head>
 <body>
 <header>
+    <br>
     <h1>Add a movie</h1>
 </header>
 <main>
+    <br>
     <div class="container">
         <div class="row">
             <div class="col-md-5">
@@ -25,6 +27,7 @@
                         <input id="title" name="title" type="text" class="form-control"
                                th:value="(${movie!=null} ? ${movie.getTitle()} : '')" required placeholder="Movie name">
                     </div>
+                    <br>
                     <input hidden name="movieId" th:value="(${movie!=null} ? ${movie.getId()} : '')">
                     <div class="form-group">
                         <label for="summary">Movie summary</label>
@@ -32,12 +35,14 @@
                                th:value="(${movie!=null} ? ${movie.getSummary()} : '')" required
                                placeholder="Movie summary">
                     </div>
+                    <br>
                     <div class="form-group">
                         <label for="rating">Movie rating</label>
-                        <input id="rating" name="rating" type="text" class="form-control"
+                        <input id="rating" name="rating" type="number" class="form-control"
                                th:value="(${movie!=null} ? ${movie.getRating()} : '')" required
                                placeholder="Movie rating">
                     </div>
+                    <br>
                     <div class="form-group">
                         <label>Production</label>
                         <select name="production" class="form-control">
@@ -45,17 +50,18 @@
                                         && movie.getProduction().getId() == prod.getId()}"
                                     th:each="prod : ${productions}"
                                     th:text="${prod.getName()}"
-                                    th:value="${prod.getId()}">
+                                    th:value="${prod.getName()}">
                             </option>
                             <option th:if="${movie==null}"
                                     th:each="prod : ${productions}" th:text="${prod.getName()}"
-                                    th:value="${prod.getId()}">
+                                    th:value="${prod.getName()}">
                             </option>
                         </select>
                         <br>
                     </div>
-                    <button type="submit" class="btn btn-primary ">Submit</button>
+                    <br>
                     <a type="button" class="btn btn-primary" href="/movies">Back</a>
+                    <button type="submit" class="btn btn-success ">Submit</button>
                 </form>
             </div>
         </div>

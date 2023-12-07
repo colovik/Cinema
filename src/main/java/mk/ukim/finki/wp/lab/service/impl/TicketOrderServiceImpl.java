@@ -1,48 +1,55 @@
 package mk.ukim.finki.wp.lab.service.impl;
 
-import mk.ukim.finki.wp.lab.bootstrap.DataHolder;
 import mk.ukim.finki.wp.lab.model.TicketOrder;
-import mk.ukim.finki.wp.lab.repository.MovieRepository;
-import mk.ukim.finki.wp.lab.repository.TicketRepository;
+import mk.ukim.finki.wp.lab.model.User;
+import mk.ukim.finki.wp.lab.repository.jpaTicketOrderRepository;
 import mk.ukim.finki.wp.lab.service.interfaces.TicketOrderService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TicketOrderServiceImpl implements TicketOrderService {
 
-    private final TicketRepository ticketRepository;
-    private final MovieRepository movieRepository;
+    private final jpaTicketOrderRepository ticketOrderRepository;
 
-    public TicketOrderServiceImpl(TicketRepository ticketRepository, MovieRepository movieRepository) {
-        this.ticketRepository = ticketRepository;
-        this.movieRepository = movieRepository;
-    }
-
-    @Override
-    public void placeOrder(String movieTitle, String clientName, String address, int numberOfTickets) {
-        TicketOrder order = new TicketOrder(movieTitle, clientName, address, numberOfTickets, movieRepository.getMovie(movieTitle).getProduction());
-        DataHolder.ticketOrders.add(order);
-        movieRepository.getMovie(movieTitle).setNum_orders
-                (movieRepository.getMovie(movieTitle).getNum_orders() + numberOfTickets);
-        // ja zgolemuva promenlivata sho broi kolku karti se kupeni za sekoj film
+    public TicketOrderServiceImpl(jpaTicketOrderRepository ticketRepository) {
+        this.ticketOrderRepository = ticketRepository;
     }
 
     @Override
     public List<TicketOrder> findAll() {
-        return ticketRepository.findAll();
+        return ticketOrderRepository.findAll();
     }
 
     @Override
-    public List<String> getAllClients() {
-        return ticketRepository.findAllClients();
+    public List<String> getAllClientsWithOrders() {
+        List<String> result = new ArrayList<String>();
+        for (TicketOrder t : ticketOrderRepository.findAll()){
+            if (!result.contains(t.getUser().getUsername())){
+                result.add(t.getUser().getUsername());
+            }
+        }
+        return result;
     }
 
     @Override
     public List<TicketOrder> findTicketsByUser(String name) {
-       return ticketRepository.findTicketsByUser(name);
+        return ticketOrderRepository.findAllByUserUsername(name);
     }
 
+    @Override
+    public TicketOrder save(TicketOrder ticketOrder) {
+        return ticketOrderRepository.save(ticketOrder);
+    }
 
+    @Override
+    public List<TicketOrder> getOrdersInTimeInterval(LocalDateTime from, LocalDateTime to) {
+        if (from == null || to == null) {
+            return ticketOrderRepository.findAll();
+        }
+        return ticketOrderRepository.findOrdersInTimeInterval(from, to);
+    }
 }

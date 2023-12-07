@@ -1,4 +1,4 @@
-package mk.ukim.finki.wp.lab.repository;
+package mk.ukim.finki.wp.lab.repository.InMemoryRepository;
 
 import mk.ukim.finki.wp.lab.model.Movie;
 import mk.ukim.finki.wp.lab.model.Production;
@@ -83,13 +83,14 @@ public class MovieRepository {
         }
     }
 
-    public void updateRating(String movie, double rating){
+    public void updateRating(String movie, double rating) {
         double newRating;
-        for(Movie m : movieList){
-            if(m.getTitle().equals(movie)){
-                newRating = (m.getRating()+rating)/2;
+        for (Movie m : movieList) {
+            if (m.getTitle().equals(movie)) {
+                newRating = (m.getRating() + rating) / 2;
                 m.setRating(newRating);
             }
         }
     }
 }
+

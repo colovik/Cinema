@@ -1,7 +1,8 @@
-package mk.ukim.finki.wp.lab.repository;
+package mk.ukim.finki.wp.lab.repository.InMemoryRepository;
 
 import mk.ukim.finki.wp.lab.model.Production;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 import static mk.ukim.finki.wp.lab.bootstrap.DataHolder.productions;
@@ -22,3 +23,4 @@ public class ProductionRepository {
         return null;
     }
 }
+

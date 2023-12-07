@@ -1,0 +1,56 @@
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+    <title>Movie Ticket Order page - Welcome and choose a Movie</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <br>
+    <h1>Add a production</h1>
+</header>
+<main>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <form method="post" action="/production/add">
+                    <div class="form-group">
+                        <label for="name">Production name</label>
+                        <input id="name" name="name" type="text" class="form-control"
+                               required placeholder="Production name">
+                    </div>
+                    <br>
+                    <!--                    <input hidden name="movieId" th:value="(${movie!=null} ? ${movie.getId()} : '')">-->
+                    <div class="form-group">
+                        <label for="country">Production Country</label>
+                        <input id="country" name="country" type="text" class="form-control"
+                               required placeholder="Production Country">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="address">Production address</label>
+                        <input id="address" name="address" type="text" class="form-control"
+                               required placeholder="Production address">
+                    </div>
+                    <br>
+                    <a type="button" class="btn btn-primary" href="/production">Back</a>
+                    <button type="submit" class="btn btn-success ">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
+
